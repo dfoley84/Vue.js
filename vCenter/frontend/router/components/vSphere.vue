@@ -58,7 +58,7 @@ export default {
 
 methods: {
     // 1 GET METHOD
-    getGames() {
+    getMachines() {
       const path = 'http://localhost:5000/vsphere';
       axios.get(path)
         .then((res) => {
@@ -70,7 +70,7 @@ methods: {
     }
   },
   created() {
-    this.getGames(); 
+    this.getMachines(); 
   },
 };
 </script>
