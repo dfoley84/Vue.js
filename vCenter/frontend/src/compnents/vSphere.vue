@@ -7,7 +7,7 @@
                     <img :src="image"/>
                 </div>
                 <div class="card-body">
-                    <!-- Display vDesk Machine Name -->
+                 
                     <h4 class="card-title">
                         Machine: {{ vcenter.MachineName }}
                     </h4>
