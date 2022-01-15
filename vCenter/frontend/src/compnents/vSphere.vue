@@ -2,12 +2,25 @@
 <div class="container">
     <div class="row my-5 card-wrapper">
         <div class="col-lg-4 col-md-6 mb-4" v-for="(vcenter, index) in vcenters" :key="index">
+
             <div class="card h-200">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <img :src="image"/>
+                    <!-- Display Image -->
+                    <template v-if="vcenter.MachineOpt === 'Mint'">
+                         <img v-bind:src="require('../assets/mint.png')" />
+                    </template>
+
+                     <template v-if="vcenter.MachineOpt === 'Ubuntu'">
+                         <img v-bind:src="require('../assets/ubuntu.png')" />
+                    </template>
+
+                    <template v-if="vcenter.MachineOpt === 'Windows'">
+                         <img v-bind:src="require('../assets/windows.png')" />
+                    </template>
+                   
                 </div>
                 <div class="card-body">
-                 
+                    <!-- Display vDesk Machine Name -->
                     <h4 class="card-title">
                         Machine: {{ vcenter.MachineName }}
                     </h4>
@@ -29,6 +42,10 @@
                             <button type="button" class="btn btn-danger btn-sm">PowerOn</button>
                         </template>
 
+                        <template v-if="vcenter.ToolStatus === 'RunningJob'">
+                            <Spinner />
+                        </template>
+
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">
@@ -44,21 +61,22 @@
 
 <script>
 import axios from 'axios';
-import image from "../assets/logo.png"
-
+import Spinner from '@/components/Spinner.vue'
 export default {
   data() {
     return {
       vcenters: [],
-      image: image
-
     };
   },
   message:'',
 
+ components: {
+     Spinner
+  },
+
 methods: {
     // 1 GET METHOD
-    getGames() {
+    getvcenters() {
       const path = 'http://localhost:5000/vsphere';
       axios.get(path)
         .then((res) => {
@@ -70,7 +88,8 @@ methods: {
     }
   },
   created() {
-    this.getGames(); 
+    this.getvcenters(); 
   },
 };
 </script>
+
