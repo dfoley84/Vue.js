@@ -37,9 +37,8 @@ def searchdata():
     response_object = {'status':'success'}
     if request.method == 'POST':
         post_data = request.get_json()
-        Username = post_data.get('username')
+        Username = post_data.get('TitleUser')
         response_object['vdesks'] = [i.serialize for i in Horizon.query.filter_by(UserName=Username).all()]
-        print(response_object['vdesks'])
         db.session.remove()
     return jsonify(response_object)
 
