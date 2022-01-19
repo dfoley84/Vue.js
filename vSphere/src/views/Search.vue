@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container" style="padding-top: 50px;">
 <div class="row">
 
 <div class="form-group">
@@ -74,13 +74,11 @@
     </div>
   </div>
     <!-- Pager Footer -->
-    <Footer />
   </div>
 </template>
 
 <script>
 import Spinner from '@/components/Spinner.vue';
-import Footer from '@/components/Footer.vue';
 import {mapState} from 'vuex';
 
 export default {
@@ -92,7 +90,7 @@ export default {
     message: '',
     components: {
     Spinner,
-    Footer
+    
 },
 computed: {
   ...mapState(['vdesks']),
@@ -111,6 +109,12 @@ methods: {
      this.$store.dispatch('FetchUservDesks', this.payload);
   },
   
+  pollData() {
+      this.polling = setInterval (() => {
+      this.SubmitForm()
+    }, 120000)
+  }
+},
 beforeUnmount() {
 },
 created() {
