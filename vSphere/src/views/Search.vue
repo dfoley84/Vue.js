@@ -110,14 +110,16 @@ methods: {
   },
   
   pollData() {
-      this.polling = setInterval (() => {
-      this.SubmitForm()
-    }, 120000)
+    this.polling = setInterval(() => {
+      this.$store.dispatch('FetchUservDesks', this.payload)
+    },120000)
   }
 },
 beforeUnmount() {
+  clearInterval(this.polling)
 },
 created() {
+  this.pollData()
   },
 };
 </script>
