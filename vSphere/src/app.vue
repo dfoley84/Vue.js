@@ -5,7 +5,9 @@
       <Navigation />
       <main class="column">
         <router-view />
+        <Footer />
       </main>
+
     </div>
   </div>
 </template>
@@ -14,10 +16,13 @@
 <script>
 import Headerbar from '@/components/Header/Header.vue'
 import Navigation from '@/components/NavigationBar/Navigation.vue'
+import Footer from '@/components/Footer/Footer.vue'
+
 export default{
    components: { 
      Headerbar,
-     Navigation
+     Navigation,
+     Footer
   },
 };
 </script>
