@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style=" padding-top: 50px;">
      <!-- Bootswatch -->
  
     <div class="row my-5 card-wrapper">
@@ -66,15 +66,12 @@
       </div>
           <!-- End of Card --> 
     </div>
-  </div>
-    <!-- Pager Footer -->
-    <Footer />
+    </div>
   </div>
 </template>
 
 <script>
 import Spinner from '@/components/Spinner.vue';
-import Footer from '@/components/Footer.vue';
 import {mapState} from 'vuex';
 
 export default {
@@ -90,14 +87,13 @@ computed:{
 },
 
 components: {
-    Spinner,
-    Footer
+    Spinner
 },
 
 methods: {
   pollData () {
     this.polling = setInterval (() => {
-      this.$store.dispatch("fetchVdesk")
+      this.$store.dispatch("FeatchvDesks")
     }, 3000)
   }
 },
@@ -107,7 +103,7 @@ beforeUnmount() {
 },
 
 created() {
-    this.$store.dispatch("fetchVdesk")
+    this.$store.dispatch("FeatchvDesks")
     this.pollData()
   },
 };
