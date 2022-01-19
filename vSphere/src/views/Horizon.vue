@@ -33,18 +33,18 @@
 
               <!-- Action Buttons -->
               <template v-if="vdesk.MachineStatus != 'Powered Off' && vdesk.MachineStatus != 'Running Job'">
-                 <button type="button" class="btn btn-outline-warning"><i class="fas fa-power-off"></i></button>
-                 <button type="button" class="btn btn-outline-primary"><i class="fas fa-recycle"></i></button>
-                 <button type="button" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+                 <button type="button" class="btn btn-outline-warning" @click="SubmitPowerCycle({'PowerCycle':'PowerOff', 'vDesk':vdesk})"><i class="fas fa-power-off"></i></button>
+                 <button type="button" class="btn btn-outline-primary" @click="SubmitPowerCycle({'PowerCycle':'Restart', 'vDesk':vdesk})"><i class="fas fa-recycle"></i></button>
+                 <button type="button" class="btn btn-outline-danger" @click="SubmitPowerCycle({'PowerCycle':'Delete', 'vDesk':vdesk})"><i class="fas fa-trash"></i></button>
   
               <template v-if="vdesk.MachineOpt == 'Windows'">
-                   <button type="button" class="btn btn-outline-info"><i class="fas fa-desktop"></i></button>
+                   <button type="button" class="btn btn-outline-info" @click="SubmitPowerCycle({'PowerCycle':'RDP', 'vDesk':vdesk})"><i class="fas fa-desktop"></i></button>
               </template>
               </template>
 
               <template v-if="vdesk.MachineStatus == 'Powered Off'">
-                <button ><i class="fas fa-power-off"></i> Start </button>
-                <button btn btn-info ><i class="fas fa-trash"></i> Delete </button>
+                <button ><i class="fas fa-power-off" @click="SubmitPowerCycle({'PowerCycle':'Start', 'vDesk':vdesk})"></i> Start </button>
+                <button btn btn-info ><i class="fas fa-trash" @click="SubmitPowerCycle({'PowerCycle':'Delete', 'vDesk':vdesk})"></i> Delete </button>
               </template>
 
               <template v-if="vdesk.MachineStatus == 'Running Job'">
@@ -73,17 +73,20 @@
 <script>
 import Spinner from '@/components/Spinner.vue';
 import {mapState} from 'vuex';
+import axios from "axios";
 
 export default {
 data() {
     return {
-      polling: null
-     };
+      polling: null,
+      vdesk: [],
+    };
 	},
+
 message: '',
 
 computed:{
-  ...mapState(['vdesks'])
+  ...mapState(['vdesks']),
 },
 
 components: {
@@ -91,13 +94,24 @@ components: {
 },
 
 methods: {
+
+   SubmitPowerCycle(payload){
+     const path = 'http://localhost:5000/horizon'
+     axios.post(path, payload)
+     .then(() => {
+        this.message = 
+        this.showMessage = true;
+   })
+   .catch((error) =>{
+     console.error(error);
+   });
+   },
   pollData () {
     this.polling = setInterval (() => {
       this.$store.dispatch("FeatchvDesks")
-    }, 120000)
+    }, 12000)
   }
 },
-
 beforeUnmount() {
   clearInterval(this.polling)
 },
