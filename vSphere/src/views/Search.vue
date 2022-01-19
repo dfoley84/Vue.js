@@ -1,19 +1,22 @@
 <template>
+
 <div class="container" style="padding-top: 50px;">
 <div class="row">
-
-<div class="form-group">
+<div class="col-lg-4 col-md-4 col-sm-6 col-sm-offset-4 col-xs-6 col-xs-offset-4 ">
+  <div class="form-group">
     <label for="FormUserName">Enter Username</label>
-    <input v-model="TitleUser" type="text" class="form-control" id="FormUserName" placeholder="Enter text">
+    <input v-model="TitleUser" type="text" class="form-control" id="FormUserName" placeholder="Enter Username">
   </div>
-  <br>
-  <button class="btn btn-primary col-12 my-4" @click="SubmitForm">Submit</button>
+  <div class="form-group">
+   <button class="btn btn-primary col-12 my-4" @click="SubmitForm">Submit</button>
+  </div>
+</div>
 </div>
 
 <div class="row my-5 card-wrapper">
       <div
 			class="col-lg-4 col-md-6 mb-4"
-			v-for="(vdesk, index) in vdesks"
+			v-for="(vdesk, index) in SearchvDesks"
 			:key="index">
         <div class="card h-200">
             <div class="embed-responsive embed-responsive-16by9">
@@ -93,7 +96,7 @@ export default {
     
 },
 computed: {
-  ...mapState(['vdesks']),
+  ...mapState(['SearchvDesks']),
   
   TitleUser: {
     get() {
