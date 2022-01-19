@@ -71,6 +71,9 @@
 </template>
 
 <script>
+
+//TO-DO Move SubmitPowerCycle to VUEX 
+
 import Spinner from '@/components/Spinner.vue';
 import {mapState} from 'vuex';
 import axios from "axios";
@@ -99,7 +102,7 @@ methods: {
      const path = 'http://localhost:5000/horizon'
      axios.post(path, payload)
      .then(() => {
-        this.message = 
+        this.message = " ";
         this.showMessage = true;
    })
    .catch((error) =>{
