@@ -38,7 +38,7 @@
                  <button type="button" class="btn btn-outline-danger" @click="SubmitPowerCycle({'PowerCycle':'Delete', 'vDesk':vdesk})"><i class="fas fa-trash"></i></button>
   
               <template v-if="vdesk.MachineOpt == 'Windows'">
-                   <button type="button" class="btn btn-outline-info" @click="SubmitPowerCycle({'PowerCycle':'RDP', 'vDesk':vdesk})"><i class="fas fa-desktop"></i></button>
+                   <button type="button" class="btn btn-outline-info"><i class="fas fa-desktop"></i></button>
               </template>
               </template>
 
@@ -101,7 +101,7 @@ methods: {
      const path = 'http://localhost:5000/horizon'
      axios.post(path, payload)
      .then(() => {
-        this.message = "Job Passed To RabbitMQ: PowerCycle will Start 🕹️ !";
+        this.message = "Job Has been Submitted";
         this.showMessage = true;
         this.$store.dispatch("FeatchvDesks")
 
