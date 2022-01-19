@@ -94,7 +94,7 @@ methods: {
   pollData () {
     this.polling = setInterval (() => {
       this.$store.dispatch("FeatchvDesks")
-    }, 3000)
+    }, 120000)
   }
 },
 
