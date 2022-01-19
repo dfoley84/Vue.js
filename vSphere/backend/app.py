@@ -7,7 +7,7 @@ import pika, json
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://myuser://@FLASK'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://myuser://@1/'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -24,6 +24,7 @@ app.config.from_object(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 
+#Getting All vDesks
 @app.route('/horizon', methods=['GET','POST'])
 def GetvDesks():
     response_object = {'status': 'success'}
@@ -53,16 +54,20 @@ def GetvDesks():
             RemovevDesks = delete(Horizon).where(Horizon.MachineName == MachineName)
             db.session.execute(RemovevDesks)
             db.session.commit()
+            db.session.remove()
         else:
-            #Append Running Job to Machine Status.
-            print('')
-        
+            db.session.query(Horizon).filter(Horizon.MachineName == MachineName).update({"MachineStatus": "Running Job"})
+            db.session.commit()
+            db.session.remove()
+
     else:
         response_object['vdesks'] = [i.serialize for i in Horizon.query.all()]
         db.session.remove()
     return jsonify(response_object)
 
-#Get Searched User
+
+
+#Display vDesks from Searched User
 @app.route("/searchdata", methods=['GET', 'POST'])
 def searchdata():
     response_object = {'status':'success'}
@@ -73,8 +78,6 @@ def searchdata():
         response_object['SearchvDesks'] = [i.serialize for i in Horizon.query.filter_by(UserName=Username).all()]
         db.session.remove()
     return jsonify(response_object)
-
-
 
 if __name__ == '__main__':
     app.run()
