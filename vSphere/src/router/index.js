@@ -2,6 +2,12 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 
 const routes = [
+   {
+    path: "/:pathMatch(.*)",
+    name: "NotFound",
+    component: () =>
+      import(/* webpackChunkName: "NotFound" */ "@/components/NotFound.vue"),
+  },
   {
     path: "/",
     name: "Home",
@@ -11,13 +17,13 @@ const routes = [
     path: "/about",
     name: "About",
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/About.vue"),
+      import(/* webpackChunkName: "About" */ "@/views/About.vue"),
   },
   {
     path: "/horizon",
     name: "Horizon",
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/Horizon.vue"),
+      import(/* webpackChunkName: "Horizon" */ "@/views/Horizon.vue"),
   },
 ];
 
