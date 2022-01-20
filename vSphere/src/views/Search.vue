@@ -99,14 +99,12 @@ computed: {
   ...mapState(['SearchvDesks']),
   
   TitleUser: {
-    get() {
-      return this.$store.getters.TitleUser;
-    },
     set(TitleUser) {
       this.$store.commit('PostTitle', TitleUser);
     },
   },
 },
+
 methods: {
    SubmitForm() {
      this.$store.dispatch('FetchUservDesks', this.payload);
@@ -118,11 +116,14 @@ methods: {
     },120000)
   }
 },
+
 beforeUnmount() {
   clearInterval(this.polling)
 },
+
 created() {
   this.pollData()
   },
+  
 };
 </script>
