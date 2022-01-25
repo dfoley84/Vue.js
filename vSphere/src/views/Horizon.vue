@@ -33,18 +33,38 @@
 
               <!-- Action Buttons -->
               <template v-if="vdesk.MachineStatus != 'Powered Off' && vdesk.MachineStatus != 'Running Job'">
-                 <button type="button" class="btn btn-outline-warning" @click="SubmitPowerCycle({'PowerCycle':'PowerOff', 'vDesk':vdesk})"><i class="fas fa-power-off"></i></button>
-                 <button type="button" class="btn btn-outline-primary" @click="SubmitPowerCycle({'PowerCycle':'Restart', 'vDesk':vdesk})"><i class="fas fa-recycle"></i></button>
-                 <button type="button" class="btn btn-outline-danger" @click="SubmitPowerCycle({'PowerCycle':'Delete', 'vDesk':vdesk})"><i class="fas fa-trash"></i></button>
+                <button type="button" 
+                        class="btn btn-outline-warning"
+                        @click="postData({'vSphere':'Horizon','PowerCycle':'PowerOff', 'vDesk':vdesk})">
+                        <i class="fas fa-power-off"></i></button>
+
+                 <button type="button" 
+                         class="btn btn-outline-primary" 
+                         @click="postData({'vSphere':'Horizon','PowerCycle':'Restart', 'vDesk':vdesk})">
+                         <i class="fas fa-recycle"></i></button>
+
+                 <button type="button" 
+                         class="btn btn-outline-danger"
+                         @click="postData({'vSphere':'Horizon','PowerCycle':'Delete', 'vDesk':vdesk})">
+                         <i class="fas fa-trash"></i></button>
   
               <template v-if="vdesk.MachineOpt == 'Windows'">
-                   <button type="button" class="btn btn-outline-info"><i class="fas fa-desktop"></i></button>
+                   <button type="button"
+                           class="btn btn-outline-info">
+                           <i class="fas fa-desktop"></i></button>
               </template>
               </template>
 
               <template v-if="vdesk.MachineStatus == 'Powered Off'">
-                <button ><i class="fas fa-power-off" @click="SubmitPowerCycle({'PowerCycle':'Start', 'vDesk':vdesk})"></i> Start </button>
-                <button btn btn-info ><i class="fas fa-trash" @click="SubmitPowerCycle({'PowerCycle':'Delete', 'vDesk':vdesk})"></i> Delete </button>
+                <button type="button" 
+                         class="btn btn-outline-danger"
+                         @click="postData({'vSphere':'Horizon','PowerCycle':'Delete', 'vDesk':vdesk})">
+                         <i class="fas fa-power-off"></i></button>
+      
+                <button type="button" 
+                         class="btn btn-outline-danger"
+                         @click="postData({'vSphere':'Horizon','PowerCycle':'Delete', 'vDesk':vdesk})">
+                         <i class="fas fa-trash"></i></button>
               </template>
 
               <template v-if="vdesk.MachineStatus == 'Running Job'">
@@ -74,17 +94,15 @@
 
 //TO-DO Move SubmitPowerCycle to VUEX 
 import Spinner from '@/components/Spinner.vue';
-import {mapState} from 'vuex';
-import axios from "axios";
+import {mapState, mapActions} from 'vuex';
 
 export default {
 data() {
     return {
-      polling: null,
-      vdesk: [],
+      polling: null,  
     };
 	},
-
+  
 message: '',
 
 computed:{
@@ -96,20 +114,8 @@ components: {
 },
 
 methods: {
+    ...mapActions(['postData']),
 
-   SubmitPowerCycle(payload){
-     const path = 'http://localhost:5000/horizon'
-     axios.post(path, payload)
-     .then(() => {
-        this.message = "Job Has been Submitted";
-        this.showMessage = true;
-        this.$store.dispatch("FeatchvDesks")
-
-   })
-   .catch((error) =>{
-     console.error(error);
-   });
-   },
 
   pollData () {
     this.polling = setInterval (() => {
@@ -117,6 +123,7 @@ methods: {
     }, 12000)
   }
 },
+
 beforeUnmount() {
   clearInterval(this.polling)
 },
