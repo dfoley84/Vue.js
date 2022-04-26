@@ -1,5 +1,4 @@
-from re import M
-from flask import Flask, jsonify, request 
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import select, update, delete, values
@@ -65,13 +64,14 @@ def searchdata():
 def selectedMachine():
     response_object = {'status':'success'}
     if request.method == 'POST':
-        message = request.get_json() #Getting Posted JSON Data 
+        message = request.get_json() #Getting Posted JSON Data
 
         #Getting Machine Information from FontEnd.
         PowerCycle = message['data']['PowerCycle']
         MachineName = message['data']['vDesk']['MachineName']
 
         RabbitMQ_Sender(message) #Passing Message to Class RabbitMQ_Sender
+        requests.get("http://mircoservice_rabbitmq:5001/message") #Calling RabbitMQ_Receiver
         
         #Updating DB Based on PowerCycle
         if PowerCycle == 'Delete':
@@ -85,11 +85,11 @@ def selectedMachine():
 def PowerCycle():
     response_object = {'status':'success'}
     if request.method == 'POST':
-        message = request.get_json() #Getting Posted JSON Data 
+        message = request.get_json() #Getting Posted JSON Data
         #Getting Machine Information from FontEnd.
         PowerCycle = message['PowerCycle']
         MachineName = message['vDesk']['MachineName']
-        #RabbitMQ_Sender(message) #Passing Message to Class RabbitMQ_Sender
+        RabbitMQ_Sender(message) #Passing Message to Class RabbitMQ_Sender
         #Updating DB Based on PowerCycle
         if PowerCycle == 'Delete':
            DeleteMachine(MachineName)
